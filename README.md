@@ -5,9 +5,26 @@
 
 ### Why Corovel ? ###
 
-I created Corovel so that I could run modules from my Corona library in a server environment (eg, async TCP Sockets, Websockets, and WAMP).
+I created Corovel so that I could run certain modules from my DMC Corona Library in a server environment (eg, async TCP Sockets, WebSockets, and WAMP). I figured if I could create an enviroment similar to the Corona SDK, then I wouldn't have to re-write any libraries.
 
-The Corona SDK environment provides a rich environment for asynchronous programming via two core objects: the Corona Runtime and Corona Timer. The Runtime sends out events every "frame" and the Timer will call a handler after a certain time has passed. Each of these items can have listeners/callbacks attached to them.
+The Corona SDK environment provides a rich environment for asynchronous programming via two core objects: the Corona Runtime and Corona Timer. The Runtime sends out events every "frame" and the Timer will call a handler after a certain time has passed. These are important building blocks for async code.
+
+
+*Corovel is NOT the Corona SDK*
+
+Corovel *does not* provide any visual services to code – eg, sprites, game-engine, etc.
+
+
+
+### Features ###
+
+Though it's in its infancy, Corovel is pretty cool. It will allow you to:
+
+* Run unmodified, non-visual code from Corona SDK on a server
+  (not all object types have been created)
+
+* create any number of Corvel environments
+  Combined with Lua Lanes, each environment can run it its own OS thread. (this already works)
 
 
 
@@ -20,7 +37,7 @@ Corovel is a library written in pure Lua. It requires the following Lua modules:
 
 
 
-### Run Corona Modules ###
+### How to Use Corovel ###
 
 Launch your file with Corovel like so:
 
@@ -30,5 +47,21 @@ Launch your file with Corovel like so:
 
 `lua corovel.lua 'commands.master'`
 
+
+
+### Corona Modules ###
+
+These have been created:
+* Runtime
+* timer
+* system
+
+These need to be created:
+* network
+* etc
+
+
+
+### Documentation ###
 
 More information coming soon ...
