@@ -3,7 +3,7 @@
 -- generates an event-loop, Corona SDK-style
 --
 -- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/lua-corovel
+-- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
 --====================================================================--
 
 --[[
