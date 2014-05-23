@@ -1,11 +1,13 @@
 
 ## Lua Corovel ##
 
+An event-loop programming environment for Lua.
 
 
 ### Why Corovel ? ###
 
-I created Corovel so that I could run certain modules from my DMC Corona Library in a server environment (eg, async TCP Sockets, WebSockets, and WAMP). I figured if I could create an enviroment similar to the Corona SDK, then I wouldn't have to re-write any libraries.
+
+The name Corovel comes from the phrase "*Coro*na E*ve*nt *L*oop". I created it so that I could run certain modules from my DMC Corona Library in a server environment (eg, async TCP Sockets, WebSockets, and WAMP). I figured if I could create an enviroment similar to the Corona SDK, then I wouldn't have to re-write any of the libraries and could continue to code in my "normal" Corona-esque manner.
 
 The Corona SDK environment provides a rich environment for asynchronous programming via two core objects: the Corona Runtime and Corona Timer. The Runtime sends out events every "frame" and the Timer will call a handler after a certain time has passed. These are important building blocks for async code.
 
@@ -24,7 +26,7 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
   (not all object types have been created)
 
 * create any number of Corvel environments
-  Combined with Lua Lanes, each environment can run it its own OS thread. (this already works)
+  Combined with Lua Lanes, each environment can run in its own OS thread. (this already works)
 
 
 
@@ -32,7 +34,7 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
 
 Corovel is a library written in pure Lua. It requires the following Lua modules:
 
-* Lua 5.1 (5.2 should work too, not tested)
+* Lua 5.1 (5.2 should work too, though not tested)
 * LuaSocket
 
 
@@ -51,7 +53,7 @@ Launch your file with Corovel like so:
 
 ### Corona Modules ###
 
-These have been created:
+These objects from the Corona world have been created:
 * Runtime
 * timer
 * system
