@@ -1,9 +1,9 @@
 --====================================================================--
--- corovel/event_loop.lua
--- generates an event-loop, Corona SDK-style
+-- corovel/corona/network.lua
+--
 --
 -- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
+-- Documentation: http://docs.davidmccuskey.com/display/docs/lua-corovel
 --====================================================================--
 
 --[[
@@ -35,7 +35,7 @@ SOFTWARE.
 
 
 --====================================================================--
--- Corovel : Event Loop
+-- Corovel : Corona-esque Network Object
 --====================================================================--
 
 -- Semantic Versioning Specification: http://semver.org/
@@ -44,61 +44,67 @@ local VERSION = "0.1.0"
 
 
 --====================================================================--
--- Main Function
+-- Imports
 
--- eventLoopGenerator()
--- @params params table of options
--- * command_path string path/name of module to load
--- * eps number approximate "events per second" to process
---
-local function eventLoopGenerator( params )
-	-- print( "eventLoopGenerator", params.command_path )
+local http = require 'socket.http'
+local https = require 'ssl.https'
+local ltn12 = require 'ltn12'
+local urllib = require 'socket.url'
 
-	--== Imports
 
-	-- Globals, these are set in environment
-	_G.Runtime = require 'corovel.corona.runtime'
-	_G.timer = require 'corovel.corona.timer'
-	_G.system = require 'corovel.corona.system'
-	_G.network = require 'corovel.corona.network'
+local Utils = require 'lua_utils'
 
-	-- Local scope
-	local socket = require 'socket'
-	local Command = require( params.command_path )
 
-	--== Setup, Constants
+--====================================================================--
+-- Setup, Constants
 
-	local EPS = params.eps or 100/1000 -- 100 ms
-	local cmd
+http.TIMEOUT = 30 -- this is for raw http
 
-	-- use timer to perform Runtime actions
-	_G.timer.performWithDelay( EPS, _G.Runtime, -1 )
 
-	--== Processing
+--====================================================================--
+-- Support Functions
 
-	if type( Command ) == 'boolean' then
-		-- no return value from Lua file
-		cmd = Command
+local function makeHttpRequest( url, method, listener, params )
+	print( "makeHttpRequest", url, method )
 
+	local url_parts, hrequest
+	local req_params, resp_body = {}, {}
+	local event
+
+	url_parts = urllib.parse( url )
+	if url_parts.scheme == 'https' then
+		hrequest = https.request
 	else
-		if Command.new then
-			cmd = Command:new( params )
-		else
-			cmd = Command
-		end
-		if cmd.execute then cmd:execute() end
+		hrequest = http.request
 	end
 
-	--== Loop until done
+	req_params = {
+		url = url,
+		method = method,
+		source = ltn12.source.string( params.body ),
+		headers = params.headers,
+		redirect = params.redirect,
+		sink = ltn12.sink.table( resp_body )
+	}
 
-	while cmd == true or cmd.is_working do
-		-- print("Checking Command Event Runtime")
-		timer:_checkEventSchedule()
-		socket.sleep( EPS )
-	end
+	local resp_success, resp_code, resp_headers = hrequest( req_params )
+	resp_body = table.concat( resp_body )
+	-- print( 'http', resp_success, resp_code, resp_headers )
+	-- print( 'body', resp_body )
 
+	event = {
+		isError=false,
+		status=resp_code,
+		response=resp_body,
+		headers=resp_headers
+	}
+	if listener then listener( event ) end
 end
 
+
+--====================================================================--
+-- System Facade
+
 return {
-	createEventLoop=eventLoopGenerator
+	request = makeHttpRequest
 }
