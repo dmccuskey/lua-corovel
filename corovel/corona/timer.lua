@@ -46,6 +46,9 @@ local VERSION = "0.1.0"
 --====================================================================--
 -- Setup, Constants
 
+local tinsert = table.insert
+local tremove = table.remove
+
 local Timer = nil -- forward declare
 
 
@@ -116,7 +119,7 @@ function Timer:addEventToSchedule( event )
 
 	if end_loop == 0 then
 		event[6] = 1
-		table.insert( schedule, event )
+		tinsert( schedule, event )
 		return
 	end
 
@@ -125,9 +128,8 @@ function Timer:addEventToSchedule( event )
 		i = i + 1
 	until i > end_loop
 
-	-- print("inserting at ", i )
 	event[6] = i
-	table.insert( schedule, i, event )
+	tinsert( schedule, i, event )
 
 	-- reindex event positions
 	while i+1 <= #schedule do
@@ -141,7 +143,7 @@ function Timer:removeEventFromSchedule( event )
 	-- print( "Timer:removeEventFromSchedule", event[6] )
 	local schedule = self.event_schedule
 	local idx = event[6]
-	local evt = table.remove( schedule, idx )
+	local evt = tremove( schedule, idx )
 
 	-- reindex event positions
 	while idx <= #schedule do

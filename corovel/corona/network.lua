@@ -3,7 +3,7 @@
 --
 --
 -- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/lua-corovel
+-- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
 --====================================================================--
 
 --[[
@@ -52,11 +52,10 @@ local ltn12 = require 'ltn12'
 local urllib = require 'socket.url'
 
 
-local Utils = require 'lua_utils'
-
-
 --====================================================================--
 -- Setup, Constants
+
+local tconcat = table.concat
 
 http.TIMEOUT = 30 -- this is for raw http
 
@@ -65,7 +64,7 @@ http.TIMEOUT = 30 -- this is for raw http
 -- Support Functions
 
 local function makeHttpRequest( url, method, listener, params )
-	print( "makeHttpRequest", url, method )
+	-- print( "makeHttpRequest", url, method )
 
 	local url_parts, hrequest
 	local req_params, resp_body = {}, {}
@@ -88,7 +87,7 @@ local function makeHttpRequest( url, method, listener, params )
 	}
 
 	local resp_success, resp_code, resp_headers = hrequest( req_params )
-	resp_body = table.concat( resp_body )
+	resp_body = tconcat( resp_body )
 	-- print( 'http', resp_success, resp_code, resp_headers )
 	-- print( 'body', resp_body )
 
