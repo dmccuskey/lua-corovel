@@ -48,11 +48,11 @@ local VERSION = "0.1.0"
 
 -- eventLoopGenerator()
 -- @params params table of options
--- * command_path string path/name of module to load
+-- * lua_module string path/name of module to load
 -- * eps number approximate "events per second" to process
 --
 local function eventLoopGenerator( params )
-	-- print( "eventLoopGenerator", params.command_path )
+	-- print( "eventLoopGenerator", params.lua_module )
 
 	--== Imports
 
@@ -64,15 +64,15 @@ local function eventLoopGenerator( params )
 
 	-- Local scope
 	local socket = require 'socket'
-	local Command = require( params.command_path )
+	local Command = require( params.lua_module )
 
 	--== Setup, Constants
 
-	local EPS = params.eps or 100/1000 -- 100 ms
+	local tps = params.tps or 100/1000 -- 100 ms
 	local cmd
 
 	-- use timer to perform Runtime actions
-	_G.timer.performWithDelay( EPS, _G.Runtime, -1 )
+	_G.timer.performWithDelay( tps, _G.Runtime, -1 )
 
 	--== Processing
 
@@ -94,7 +94,7 @@ local function eventLoopGenerator( params )
 	while cmd == true or cmd.is_working do
 		-- print("Checking Command Event Runtime")
 		timer:_checkEventSchedule()
-		socket.sleep( EPS )
+		socket.sleep( tps )
 	end
 
 end
