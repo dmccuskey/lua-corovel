@@ -13,15 +13,23 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
 
 * create and run other Corvel environments in separate threads
 
-  Combined with Lua Lanes, each environment can run in its own OS thread ! sweet
+  Combined with [Lua Lanes](https://github.com/LuaLanes/lanes), each environment can run in its own OS thread ! sweet
 
 
 
 ### Overview ###
 
+
+
+#### Corovel Environment ####
+
+
 ![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview")
 
 Corovel provides some core environment objects from the Corona SDK so that *non-visual* code will run unmodified.
+
+
+#### Threaded Corovels ####
 
 
 ![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-sub.png "Corovel Threads")
