@@ -19,10 +19,17 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
 
 ### Overview ###
 
-![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview") Corovel provides some core environment objects from the Corona SDK so that *non-visual* code will run unmodified.
+![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview")
+
+Corovel provides some core environment objects from the Corona SDK so that *non-visual* code will run unmodified.
 
 
 ![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-sub.png "Corovel Threads")
+
+Here the Main Corovel launches and controls multiple Corovel instances, each running in separate threads via LuaLanes. Depending on needs, each process can be short-lived (eg, Web Worker) or loop forever (eg, server process).
+
+Each sub-Corovel can launch its own threaded Corovels, too !
+
 
 
 ### Dependencies ###
@@ -48,13 +55,13 @@ Note that *Corovel is NOT the Corona SDK !* Corovel *does not* provide any visua
 
 ### How to Use Corovel ###
 
-Launch your file with Corovel like so:
+Launch your Lua file with Corovel like so:
 
 * `lua corovel.lua main`
-  This launches `main.lua` inside of the main Corovel
+  This launches `./main.lua` inside of the main Corovel
 
 * `lua corovel.lua commands.master`
-  This launches the file `commands/master.lua` inside of the main Corovel
+  This launches the file `./commands/master.lua` inside of the main Corovel
 
 
 
@@ -68,6 +75,8 @@ These objects from the Corona world are available, but might not be complete:
 
 
 
-### Documentation ###
+### Documentation & Examples ###
 
-More information coming soon ...
+More docs coming soon.
+
+Examples are in the `examples` folder.
