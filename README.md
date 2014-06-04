@@ -21,7 +21,7 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
 
 
 
-#### Corovel Environment ####
+**Corovel Environment**
 
 
 ![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview")
@@ -29,7 +29,7 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
 Corovel provides some core environment objects from the Corona SDK so that *non-visual* code will run unmodified.
 
 
-#### Threaded Corovels ####
+**Threaded Corovels**
 
 
 ![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-sub.png "Corovel Threads")
@@ -49,18 +49,6 @@ Corovel is a library written in pure Lua. It requires the following Lua modules:
 
 
 
-### Why Corovel ? ###
-
-
-The name Corovel comes from the phrase *Corona Event Loop*. I created it so that I could run certain modules from my DMC Corona Library in a server environment (eg, async TCP Sockets, WebSockets, and WAMP). I figured if I could create an enviroment similar to the Corona SDK, then I wouldn't have to re-write any of the libraries and could continue to code in my "normal" Corona-esque manner. =)
-
-Async programming is easy if you have the right building blocks for async code. The Corona SDK environment provides two core objects: the Corona Runtime and Corona Timer. The event loop powers both the *Runtime* which sends out events every "frame" and the *Timer* which will call a handler after a certain time has passed.
-
-
-Note that *Corovel is NOT the Corona SDK !* Corovel *does not* provide any visual services to code – eg, sprites, game-engine, etc.
-
-
-
 ### How to Use Corovel ###
 
 Launch your Lua file with Corovel like so:
@@ -70,6 +58,18 @@ Launch your Lua file with Corovel like so:
 
 * `lua corovel.lua commands.master`
   This launches the file `./commands/master.lua` inside of the main Corovel
+
+
+
+### Why Corovel ? ###
+
+
+The name Corovel comes from the phrase *Corona Event Loop*. I created it so that I could run certain modules from my DMC Corona Library in a server environment (eg, async TCP Sockets, WebSockets, and WAMP). I figured if I could create an enviroment similar to the Corona SDK, then I wouldn't have to re-write any of the libraries and could continue to code in my "normal" Corona-esque manner. =)
+
+Async programming is easy if you have the right building blocks for async code. The Corona SDK environment provides two core objects: the Corona Runtime and Corona Timer. The event loop powers both the *Runtime* which sends out events every "frame" and the *Timer* which will call a handler after a certain time has passed.
+
+
+Note that *Corovel is NOT the Corona SDK !* Corovel *does not* provide any visual services to code – eg, sprites, game-engine, etc.
 
 
 
