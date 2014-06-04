@@ -19,7 +19,7 @@ Though it's in its infancy, Corovel is pretty cool. It will allow you to:
 
 ### Overview ###
 
-![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview")
+![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview") Corovel provides some core environment objects from the Corona SDK so that *non-visual* code will run unmodified.
 
 
 ![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-sub.png "Corovel Threads")
