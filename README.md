@@ -85,6 +85,7 @@ These objects from the Corona world are available, but might not be complete:
 
 ### Documentation & Examples ###
 
-More docs coming soon.
+
+More docs coming soon. http://docs.davidmccuskey.com/display/docs/Lua+Corovel
 
 Examples are in the `examples` folder.
