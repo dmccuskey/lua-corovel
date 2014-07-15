@@ -71,7 +71,7 @@ local function checkEventSchedule()
 	Timer:checkEventSchedule()
 end
 
--- performWithDelay(), static function
+-- schedule a new event
 --
 local function performWithDelay( time, handler, iterations )
 	-- print("timer.performWithDelay", time, handler, iterations )
@@ -109,7 +109,20 @@ Timer.NAME = "Timer Object"
 Timer.EVENT = 'timer'
 Timer.event_schedule = {} -- the scheduled items
 
+--[[
+event structure:
+e_time - number, delay for each iteration in milliseconds
+e_handler - function or object, callback handler
+e_iterations - number, number of times to invoke event
+e_eternal - boolean, whether it is an eternal running event
+e_start - the time when next to run event (system.time + e_time)
+e_pos - position (index) in schedule array
 
+we have e_pos so that once we get an event we can quickly figure out
+its position so that it can be removed
+
+TODO: think about using a linked list for the event schedule
+--]]
 function Timer:createEvent( e_time, e_handler, e_iterations, e_eternal )
 	-- print( "Timer:createEvent", e_time, e_iterations )
 	local e_start, e_pos = 0, 0
@@ -166,6 +179,7 @@ end
 
 -- checkEventSchedule()
 -- checks scheduled events, handles any which need attention
+-- @param time milliseconds since system start
 --
 function Timer:checkEventSchedule()
 	-- print( "Timer:checkEventSchedule", #self.event_schedule )
@@ -187,11 +201,10 @@ function Timer:checkEventSchedule()
 			is_done = true
 
 		else
+			-- dispatch event
 			local event = { time=t }
-
 			if type( e_handler ) == 'function' then
 				e_handler( event )
-
 			elseif type( e_handler ) == 'table' then
 				local method = e_handler[ self.EVENT ]
 				method( e_handler, event )
@@ -202,7 +215,6 @@ function Timer:checkEventSchedule()
 				self:rescheduleEvent( evt )
 			else
 				e_iterate = e_iterate - 1
-
 				if e_iterate > 0 then
 					evt[3] = e_iterate
 					self:rescheduleEvent( evt )
