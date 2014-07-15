@@ -57,10 +57,10 @@ local function eventLoopGenerator( params )
 	--== Imports
 
 	-- Globals, these are set in environment
-	_G.Runtime = require 'corovel.corona.runtime'
-	_G.timer = require 'corovel.corona.timer'
-	_G.system = require 'corovel.corona.system'
-	_G.network = require 'corovel.corona.network'
+	_G.Runtime = require 'corona.runtime'
+	_G.timer = require 'corona.timer'
+	_G.system = require 'corona.system'
+	_G.network = require 'corona.network'
 
 	-- Local scope
 	local socket = require 'socket'

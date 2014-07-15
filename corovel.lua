@@ -52,7 +52,7 @@ local args = {...}
 --====================================================================--
 -- Imports
 
-local EventLoop = require 'corovel.event_loop'
+local EventLoop = require 'event_loop'
 
 
 --====================================================================--
