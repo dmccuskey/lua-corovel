@@ -53,6 +53,8 @@ local VERSION = "0.1.0"
 --
 local function eventLoopGenerator( params )
 	-- print( "eventLoopGenerator", params.lua_module )
+	assert( type(params.lua_module)=='string', 'expected module name for Corovel' )
+	--==--
 
 	--== Imports
 
