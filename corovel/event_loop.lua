@@ -49,7 +49,7 @@ local VERSION = "0.1.0"
 -- eventLoopGenerator()
 -- @params params table of options
 -- * lua_module string path/name of module to load
--- * eps number approximate "events per second" to process
+-- * tps number approximate "ticks per second" to process
 --
 local function eventLoopGenerator( params )
 	-- print( "eventLoopGenerator", params.lua_module )

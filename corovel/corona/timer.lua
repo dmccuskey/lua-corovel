@@ -64,7 +64,7 @@ local function reindexArray( array, idx )
 	end
 end
 
--- run through scheduled events, see if any need run
+-- run through scheduled events, see if any need to be activated
 --
 local function checkEventSchedule()
 	-- print( "checkEventSchedule" )
@@ -87,7 +87,7 @@ local function performWithDelay( time, handler, iterations )
 	return Timer:scheduleEvent( Timer:createEvent( time, handler, iterations, eternal ) )
 end
 
--- cancel currently scheduled event
+-- cancel a currently scheduled event
 --
 local function cancelEvent( event )
 	-- print("timer.cancelEvent", event )
@@ -118,8 +118,8 @@ e_eternal - boolean, whether it is an eternal running event
 e_start - the time when next to run event (system.time + e_time)
 e_pos - position (index) in schedule array
 
-we have e_pos so that once we get an event we can quickly figure out
-its position so that it can be removed
+we have e_pos so that once we get an event we can quickly know
+its position so that it can be removed, etc
 
 TODO: think about using a linked list for the event schedule
 --]]
@@ -151,6 +151,7 @@ function Timer:addEventToSchedule( event )
 	-- print( 'add at', event[5] )
 
 	-- insert event into schedule
+	-- calculate position index
 	local i = 1
 	if #schedule > 0 then
 		local e_start, end_loop = event[5], #schedule
@@ -241,9 +242,11 @@ end
 
 
 return {
+	-- for Corovel or testing purposes
 	_Timer = Timer,
 	_checkEventSchedule=checkEventSchedule,
 
+	-- Corona SDK API
 	cancel=cancelEvent,
 	performWithDelay=performWithDelay
 }
