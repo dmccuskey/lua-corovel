@@ -192,7 +192,9 @@ function Timer:checkEventSchedule()
 
 			end
 
-			if not e_eternal then
+			if e_eternal then
+				self:rescheduleEvent( evt )
+			else
 				e_iterate = e_iterate - 1
 
 				if e_iterate > 0 then
