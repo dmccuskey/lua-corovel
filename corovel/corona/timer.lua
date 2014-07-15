@@ -75,9 +75,11 @@ end
 --
 local function performWithDelay( time, handler, iterations )
 	-- print("timer.performWithDelay", time, handler, iterations )
+	assert( type(time)=='number', "time must be a number value" )
+	assert( type(handler)=='function' or type(handler)=='table', "expected event handler" )
+	--==--
 	if iterations == nil then iterations = 1 end
 	if iterations < -1 then iterations = -1 end
-	--==--
 
 	local eternal = false
 	if iterations == 0 or iterations == -1 then eternal = true end
