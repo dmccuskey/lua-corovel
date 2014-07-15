@@ -47,6 +47,9 @@ Corovel is a library written in pure Lua. It requires the following Lua modules:
 * Lua 5.1 (5.2 should work too, though not tested)
 * LuaSocket
 
+Optional installs:
+* Lua Lanes
+
 
 
 ### How to Use Corovel ###
@@ -80,6 +83,23 @@ These objects from the Corona world are available, but might not be complete:
 * timer
 * system
 * network
+
+These shims are available for Lua modules:
+* json
+
+
+
+### Tests ###
+
+There are two types of test frameworks used – Busted and Lunatest.
+
+Lunatest tests run inside of a running Corovel. The script `run.sh` is setup for those. Type the following to run:
+
+`> ./run.sh`
+
+Bested tests run outside of Corovel and test basic units. Type the following to run:
+
+`> busted`
 
 
 
