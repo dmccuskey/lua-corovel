@@ -55,9 +55,18 @@ local Timer = nil -- forward declare
 --====================================================================--
 -- Support Functions
 
--- checkEventSchedule(), static function
+-- reindex event positions
 --
-local function checkEventSchedule(  )
+local function reindexArray( array, idx )
+	-- print( "reindexArray" )
+	for i=idx,#array do
+		array[i][6] = i
+	end
+end
+
+-- run through scheduled events, see if any need run
+--
+local function checkEventSchedule()
 	-- print( "checkEventSchedule" )
 	Timer:checkEventSchedule()
 end
@@ -91,8 +100,9 @@ end
 -- Timer Object Class
 --====================================================================--
 
+
 Timer = {}
-Timer.NAME = "Timer Object Class"
+Timer.NAME = "Timer Object"
 
 Timer.EVENT = 'timer'
 Timer.event_schedule = {} -- the scheduled items
@@ -120,47 +130,35 @@ function Timer:addEventToSchedule( event )
 	-- we keep ordered list of timed events
 
 	local schedule = self.event_schedule
-	local i, end_loop = 1, #schedule
 
+	-- create schedule time
 	event[5] = event[1] + system.getTimer()
-	local e_start = event[5]
-	-- print( 'add at', e_start )
+	-- print( 'add at', event[5] )
 
-	if end_loop == 0 then
-		event[6] = 1
-		tinsert( schedule, event )
-		return
+	-- insert event into schedule
+	local i = 1
+	if #schedule > 0 then
+		local e_start, end_loop = event[5], #schedule
+		repeat
+			if e_start < schedule[i][5] then break end
+			i = i + 1
+		until i > end_loop
 	end
-
-	repeat
-		if e_start < schedule[i][5] then break end
-		i = i + 1
-	until i > end_loop
-
+	-- print( "inserting event at", i )
 	event[6] = i
 	tinsert( schedule, i, event )
-
-	-- reindex event positions
-	while i+1 <= #schedule do
-		schedule[i+1][6] = i+1
-		i = i + 1
-	end
-
+	reindexArray( schedule, i+1 )
+	return event
 end
 
 function Timer:removeEventFromSchedule( event )
 	-- print( "Timer:removeEventFromSchedule", event[6] )
+	--==--
 	local schedule = self.event_schedule
 	local idx = event[6]
-	local evt = tremove( schedule, idx )
-
-	-- reindex event positions
-	while idx <= #schedule do
-		schedule[idx][6] = idx
-		idx = idx + 1
-	end
-
-	return evt
+	tremove( schedule, idx )
+	reindexArray( schedule, idx )
+	return event
 end
 
 
@@ -174,13 +172,13 @@ function Timer:checkEventSchedule()
 
 	local event_schedule = self.event_schedule
 
-	local i, end_loop = 1, #event_schedule
+	local idx, end_loop = 1, #event_schedule
 	local is_done = false
 
 	repeat
 		local t = system.getTimer()
 		-- print( 'time is ', t, i )
-		local evt = event_schedule[i]
+		local evt = event_schedule[idx]
 		local e_handler, e_iterate, e_eternal, e_start = evt[2], evt[3], evt[4], evt[5]
 
 		if e_start > t then
@@ -195,12 +193,9 @@ function Timer:checkEventSchedule()
 			elseif type( e_handler ) == 'table' then
 				local method = e_handler[ self.EVENT ]
 				method( e_handler, event )
-
-			else
-				print( "WARNING: Timer handler error" )
-
 			end
 
+			-- reschedule/remove event
 			if e_eternal then
 				self:rescheduleEvent( evt )
 			else
@@ -209,20 +204,17 @@ function Timer:checkEventSchedule()
 				if e_iterate > 0 then
 					evt[3] = e_iterate
 					self:rescheduleEvent( evt )
-
 				else
 					self:removeEventFromSchedule( evt )
-					i=i-1; end_loop=end_loop-1 -- adjust for shortened length after remove
-
+					idx=idx-1; end_loop=end_loop-1 -- adjust for shortened length after remove
 				end
 			end
 
 		end
-
-		i = i + 1
+		idx = idx + 1
 
 		-- print( 'time end ', i, end_loop, is_done, #event_schedule )
-	until is_done or i > end_loop or #event_schedule == 0
+	until is_done or idx > end_loop or #event_schedule == 0
 
 end
 
