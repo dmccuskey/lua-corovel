@@ -16,5 +16,7 @@ lua_path=$(lua5.1 -e "print(package.path)")
 # add project dirs to LUA_PATH
 LUA_PATH=$project_libs$lua_path
 
+corovel_command='main'
+
 # run lua
-export LUA_PATH ; lua5.1 corovel.lua commands.master
+export LUA_PATH ; lua5.1 corovel.lua $corovel_command
