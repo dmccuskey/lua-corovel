@@ -73,8 +73,17 @@ local function performWithDelay( time, handler, iterations )
 	local eternal = false
 	if iterations == 0 or iterations == -1 then eternal = true end
 
-	Timer:scheduleEvent( Timer:createEvent( time, handler, iterations, eternal ) )
+	return Timer:scheduleEvent( Timer:createEvent( time, handler, iterations, eternal ) )
 end
+
+-- cancel currently scheduled event
+--
+local function cancelEvent( event )
+	-- print("timer.cancelEvent", event )
+	assert( type(event)=='table', "expected timer event" )
+	--==--
+	Timer:removeEventFromSchedule( event )
+end 
 
 
 
@@ -98,11 +107,11 @@ end
 
 function Timer:scheduleEvent( event )
 	-- print( "Timer:scheduleEvent" )
-	self:addEventToSchedule( event )
+	return self:addEventToSchedule( event )
 end
 
 function Timer:rescheduleEvent( event )
-	self:addEventToSchedule( self:removeEventFromSchedule( event ) )
+	return self:addEventToSchedule( self:removeEventFromSchedule( event ) )
 end
 
 
@@ -226,6 +235,9 @@ end
 
 
 return {
-	_checkEventSchedule = checkEventSchedule,
+	_Timer = Timer,
+	_checkEventSchedule=checkEventSchedule,
+
+	cancel=cancelEvent,
 	performWithDelay=performWithDelay
 }
