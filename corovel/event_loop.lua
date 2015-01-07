@@ -63,6 +63,7 @@ local function eventLoopGenerator( params )
 	_G.timer = require 'corona.timer'
 	_G.system = require 'corona.system'
 	_G.network = require 'corona.network'
+	_G.crypto = require 'luacrypto'
 
 	-- Local scope
 	local socket = require 'socket'
