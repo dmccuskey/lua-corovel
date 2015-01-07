@@ -64,7 +64,7 @@ http.TIMEOUT = 30 -- this is for raw http
 -- Support Functions
 
 local function makeHttpRequest( url, method, listener, params )
-	-- print( "makeHttpRequest", url, method )
+	-- print( "Network.makeHttpRequest", url, method )
 
 	local url_parts, hrequest
 	local req_params, resp_body = {}, {}
