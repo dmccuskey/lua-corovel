@@ -52,8 +52,8 @@ local VERSION = "0.1.0"
 -- * tps number approximate "ticks per second" to process
 --
 local function eventLoopGenerator( params )
-	-- print( "eventLoopGenerator", params.lua_module )
-	assert( type(params.lua_module)=='string', 'expected module name for Corovel' )
+	-- print( "eventLoopGenerator", params.cmd_module )
+	assert( type(params.cmd_module)=='string', 'expected module name for Corovel' )
 	--==--
 
 	--== Imports
@@ -67,7 +67,7 @@ local function eventLoopGenerator( params )
 
 	-- Local scope
 	local socket = require 'socket'
-	local Command = require( params.lua_module )
+	local Command = require( params.cmd_module )
 
 	--== Setup, Constants
 
@@ -85,11 +85,11 @@ local function eventLoopGenerator( params )
 
 	else
 		if Command.new then
-			cmd = Command:new( params )
+			cmd = Command:new( params.cmd_params )
 		else
 			cmd = Command
 		end
-		if cmd.execute then cmd:execute() end
+		if cmd.execute then cmd:execute( params.cmd_params ) end
 	end
 
 	--== Loop until done
