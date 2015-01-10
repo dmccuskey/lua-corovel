@@ -34,37 +34,68 @@ SOFTWARE.
 
 
 
+
 --====================================================================--
--- Corovel : Corona-esque Network Object
+--== Corovel : Corona-esque Network Object
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
 
 
+
 --====================================================================--
--- Imports
+--== Imports
+
 
 local http = require 'socket.http'
 local https = require 'ssl.https'
 local ltn12 = require 'ltn12'
 local urllib = require 'socket.url'
 
+local Utils = require 'lua_utils'
+
+
 
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
+
+local DEFAULT_METHOD = 'GET'
+local DEFAULT_TYPE = 'text'
+local DEFAULT_TIMEOUT = 30 -- this is for raw http, default
+
 
 local tconcat = table.concat
 
 http.TIMEOUT = 30 -- this is for raw http
 
 
+
 --====================================================================--
--- Support Functions
+--== Support Functions
+
 
 local function makeHttpRequest( url, method, listener, params )
 	-- print( "Network.makeHttpRequest", url, method )
+	method = method or DEFAULT_METHOD
+	params = params or {}
+	-- params.headers = params.headers
+	-- params.body = params.body
+	params.bodyType = params.bodyType or DEFAULT_TYPE
+	-- params.progress = params.progress
+	-- params.response = params.response
+	params.timeout = params.timeout or DEFAULT_TIMEOUT
+	-- params.handleRedirects = params.handleRedirects
+
+	assert( url )
+	assert( method and Utils.propertyIn( { 'GET', 'POST', 'HEAD', 'PUT', 'DELETE' }, method ) )
+	assert( listener )
+	assert( params.progress==nil or Utils.propertyIn( { 'upload', 'download' }, params.progress ) )
+	assert( Utils.propertyIn( { 'text', 'binary' }, params.bodyType ) )
+	--==--
 
 	local url_parts, hrequest
 	local req_params, resp_body = {}, {}
@@ -87,22 +118,32 @@ local function makeHttpRequest( url, method, listener, params )
 	}
 
 	local resp_success, resp_code, resp_headers = hrequest( req_params )
-	resp_body = tconcat( resp_body )
-	-- print( 'http', resp_success, resp_code, resp_headers )
-	-- print( 'body', resp_body )
+
+	--[[
+	print( 'http:', resp_success, resp_code, resp_headers )
+	on success:
+	http:	1	200	<table>
+	on error:
+	http:	nil	closed	nil
+	--]]
 
 	event = {
-		isError=false,
+		isError=(resp_success==nil),
 		status=resp_code,
-		response=resp_body,
+		phase='ended',
+		response=tconcat( resp_body ),
 		headers=resp_headers
 	}
+
 	if listener then listener( event ) end
 end
 
 
+
+
 --====================================================================--
--- System Facade
+--== Network Facade
+
 
 return {
 	request = makeHttpRequest
