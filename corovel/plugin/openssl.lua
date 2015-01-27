@@ -36,6 +36,7 @@ SOFTWARE.
 --== Corovel : SSL Shim
 --====================================================================--
 
+
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
@@ -44,6 +45,7 @@ local VERSION = "0.1.0"
 
 --====================================================================--
 --== Imports
+
 
 local ssl = require 'ssl'
 

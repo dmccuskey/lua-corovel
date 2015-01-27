@@ -1,16 +1,14 @@
 --====================================================================--
 -- corovel/corona/runtime.lua
 --
---
--- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
+-- Documentation: http://docs.davidmccuskey.com/
 --====================================================================--
 
 --[[
 
 The MIT License (MIT)
 
-Copyright (c) 2014 David McCuskey
+Copyright (c) 2014-2015 David McCuskey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +33,14 @@ SOFTWARE.
 
 
 --====================================================================--
--- Corovel : Corona-esque Runtime Object
+--== Corovel : Corona-esque Runtime Object
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
+
 
 
 --====================================================================--
@@ -55,8 +55,9 @@ end
 
 
 --====================================================================--
--- Runtime Class
+--== Runtime Class
 --====================================================================--
+
 
 local Runtime = {}
 Runtime.NAME = "Runtime Class"
@@ -64,6 +65,7 @@ Runtime.NAME = "Runtime Class"
 Runtime._event_listeners = {}
 
 Runtime.ENTERFRAME_EVENT = 'enterFrame'
+
 
 
 --====================================================================--
@@ -152,14 +154,18 @@ function Runtime:dispatchEvent( event )
 end
 
 
+
 --====================================================================--
 --== Private Methods
+
 
 -- none
 
 
+
 --====================================================================--
 --== Event Handlers
+
 
 -- timer()
 -- callback from timer loop

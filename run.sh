@@ -1,8 +1,9 @@
 #!/bin/sh
 
-# this is just a simple shell script i used to run my project. it helps:
+# This is just a simple shell script I used to run my project.
+# It helps to:
 # * patch the LUA_PATH for library lookup
-# * launch the project with my current command
+# * launch the project with my current command object
 
 # Note: you'll probably want to change: project libs, lua version, or command
 

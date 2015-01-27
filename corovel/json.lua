@@ -1,16 +1,14 @@
 --====================================================================--
 -- corovel/json.lua
 --
---
--- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel.lua
+-- Documentation: http://docs.davidmccuskey.com/
 --====================================================================--
 
 --[[
 
 The MIT License (MIT)
 
-Copyright (c) 2014 David McCuskey
+Copyright (c) 2014-2015 David McCuskey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,17 +31,21 @@ SOFTWARE.
 --]]
 
 
+
 --====================================================================--
--- Corovel : JSON shim
+--== Corovel : JSON shim
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
 
 
+
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
 
 -- there are A TON of json packages for Lua. here are some of them
 -- add your favorite in the list if not there
@@ -52,13 +54,16 @@ local json_pkgs = { 'dkjson', 'cjson', 'json' }
 local has_json, json
 
 
+
 --====================================================================--
--- Support Functions
+--== Support Functions
+
 
 for i, pkg in ipairs( json_pkgs ) do
 	has_json, json = pcall( require, pkg )
 	if has_json then break end
 end
+
 
 
 return json

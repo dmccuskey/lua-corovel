@@ -1,8 +1,8 @@
 --====================================================================--
 -- corovel.lua
+--
 -- starts main Corovel event-loop
 --
--- by David McCuskey
 -- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
 --====================================================================--
 
@@ -10,7 +10,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2014 David McCuskey
+Copyright (c) 2014-2015 David McCuskey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,34 +35,43 @@ SOFTWARE.
 
 
 --====================================================================--
--- Corovel : Start Main Event-Loop
+--== Corovel : Start Main Event-Loop
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
 
 
+
 --====================================================================--
--- Command Line Args
+--== Command Line Args
+
 
 local args = {...}
 
 
+
 --====================================================================--
--- Imports
+--== Imports
+
 
 local EventLoop = require 'event_loop'
 
 
+
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
 
 local lua_module = args[1]
 local ticks_per_second = 10/1000
 
 
+
 --====================================================================--
--- Start Event Loop
+--== Start Event Loop
+
 
 EventLoop.createEventLoop( { lua_module=lua_module, tps=ticks_per_second } )
