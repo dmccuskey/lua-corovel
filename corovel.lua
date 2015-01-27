@@ -65,4 +65,4 @@ local ticks_per_second = 10/1000
 --====================================================================--
 -- Start Event Loop
 
-EventLoop.createEventLoop( { lua_module=lua_module, tps=ticks_per_second } )
+EventLoop.createEventLoop( { cmd_module=lua_module, tps=ticks_per_second } )
