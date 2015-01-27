@@ -1,16 +1,14 @@
 --====================================================================--
 -- corovel/corona/system.lua
 --
---
--- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
+-- Documentation: http://docs.davidmccuskey.com/
 --====================================================================--
 
 --[[
 
 The MIT License (MIT)
 
-Copyright (c) 2014 David McCuskey
+Copyright (c) 2014-2015 David McCuskey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,36 +33,46 @@ SOFTWARE.
 
 
 --====================================================================--
--- Corovel : Corona-esque System Object
+--== Corovel : Corona-esque System Object
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
 
 
+
 --====================================================================--
--- Imports
+--== Imports
+
 
 local socket = require 'socket'
 
 
+
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
 
 local start_time = socket.gettime()
 
 
+
 --====================================================================--
--- Support Functions
+--== Support Functions
+
 
 local function millisecondsSinceStart()
 	return ( socket.gettime() - start_time ) * 1000
 end
 
 
+
 --====================================================================--
--- System Facade
+--== System Facade
+--====================================================================--
+
 
 return {
 	getTimer=millisecondsSinceStart

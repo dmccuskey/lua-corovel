@@ -3,11 +3,9 @@
 --
 -- Tests the module Lua Sockets
 --
--- by David McCuskey
---
 -- Sample code is MIT licensed, the same license which covers Lua itself
 -- http://en.wikipedia.org/wiki/MIT_License
--- Copyright (C) 2014 David McCuskey. All Rights Reserved.
+-- Copyright (C) 2014-2015 David McCuskey. All Rights Reserved.
 --====================================================================--
 
 
@@ -15,13 +13,15 @@ print("\n===================================================================\n")
 
 
 --===================================================================--
--- Imports
+--== Imports
+
 
 local Sockets = require 'lua_sockets'
 
 
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
 
 local tconcat = table.concat
 
@@ -29,8 +29,10 @@ local host, port = 'docs.davidmccuskey.com', 80
 local sock
 
 
+
 --====================================================================--
--- Support Functions
+--== Support Functions
+
 
 -- make up a generic request for the web server
 --
@@ -97,8 +99,9 @@ end
 
 
 --====================================================================--
--- Main
+--== Main
 --====================================================================--
+
 
 sock = Sockets:create( Sockets.TCP )
 sock:addEventListener( sock.EVENT, socketCallback )

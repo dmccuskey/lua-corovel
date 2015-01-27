@@ -3,11 +3,9 @@
 --
 -- Tests the Sockets library, async style
 --
--- by David McCuskey
---
 -- Sample code is MIT licensed, the same license which covers Lua itself
 -- http://en.wikipedia.org/wiki/MIT_License
--- Copyright (C) 2014 David McCuskey. All Rights Reserved.
+-- Copyright (C) 2014-2015 David McCuskey. All Rights Reserved.
 --====================================================================--
 
 
@@ -15,21 +13,26 @@ print("\n===================================================================\n")
 
 
 --===================================================================--
--- Imports
+--== Imports
+
 
 local Sockets = require 'lua_sockets'
 local Utils = require 'lua_utils'
 
 
+
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
 
 local host, port = 'docs.davidmccuskey.com', 80
 local sock
 
 
+
 --====================================================================--
--- Support Functions
+--== Support Functions
+
 
 -- make up a generic request for the web server
 --
@@ -52,8 +55,9 @@ end
 
 
 --====================================================================--
--- Main
+--== Main
 --====================================================================--
+
 
 local function main()
 

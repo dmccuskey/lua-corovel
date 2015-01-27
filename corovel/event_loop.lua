@@ -1,8 +1,8 @@
 --====================================================================--
 -- corovel/event_loop.lua
+--
 -- generates an event-loop, Corona SDK-style
 --
--- by David McCuskey
 -- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
 --====================================================================--
 
@@ -10,7 +10,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2014 David McCuskey
+Copyright (c) 2014-2015 David McCuskey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,16 +35,19 @@ SOFTWARE.
 
 
 --====================================================================--
--- Corovel : Event Loop
+--== Corovel : Event Loop
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.1.0"
 
 
+
 --====================================================================--
--- Main Function
+--== Main Function
+
 
 -- eventLoopGenerator()
 -- @params params table of options

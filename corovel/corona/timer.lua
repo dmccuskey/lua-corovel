@@ -1,16 +1,14 @@
 --====================================================================--
 -- corovel/corona/timer.lua
 --
---
--- by David McCuskey
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
+-- Documentation: http://docs.davidmccuskey.com/
 --====================================================================--
 
 --[[
 
 The MIT License (MIT)
 
-Copyright (c) 2014 David McCuskey
+Copyright (c) 2014-2015 David McCuskey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,16 +33,19 @@ SOFTWARE.
 
 
 --====================================================================--
--- Corovel : Corona-esque Timer Object
+--== Corovel : Corona-esque Timer Object
 --====================================================================--
+
 
 -- Semantic Versioning Specification: http://semver.org/
 
 local VERSION = "0.2.0"
 
 
+
 --====================================================================--
--- Setup, Constants
+--== Setup, Constants
+
 
 local tinsert = table.insert
 local tremove = table.remove
@@ -52,8 +53,10 @@ local tremove = table.remove
 local Timer = nil -- forward declare
 
 
+
 --====================================================================--
--- Support Functions
+--== Support Functions
+
 
 -- reindex event positions
 --
@@ -94,12 +97,12 @@ local function cancelEvent( event )
 	assert( type(event)=='table', "expected timer event" )
 	--==--
 	Timer:removeEventFromSchedule( event )
-end 
+end
 
 
 
 --====================================================================--
--- Timer Object Class
+--== Timer Object Class
 --====================================================================--
 
 
@@ -237,7 +240,7 @@ end
 
 
 --====================================================================--
--- Timer Facade
+--== Timer Facade
 --====================================================================--
 
 
