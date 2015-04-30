@@ -53,8 +53,6 @@ local https = require 'ssl.https'
 local ltn12 = require 'ltn12'
 local urllib = require 'socket.url'
 
-local Utils = require 'lua_utils'
-
 
 
 --====================================================================--
@@ -76,8 +74,20 @@ http.TIMEOUT = 30 -- this is for raw http
 --== Support Functions
 
 
+local Utils = {}
+
+function Utils.propertyIn( list, property )
+	for i = 1, #list do
+		if list[i] == property then return true end
+	end
+	return false
+end
+
+
+
+
 local function makeHttpRequest( url, method, listener, params )
-	-- print( "Network.makeHttpRequest", url, method )
+	print( "Network.makeHttpRequest", url, method )
 	method = method or DEFAULT_METHOD
 	params = params or {}
 	-- params.headers = params.headers
