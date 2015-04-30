@@ -46,6 +46,18 @@ local VERSION = "0.1.0"
 
 
 --====================================================================--
+--== Setup, Constants
+
+
+local assert = assert
+local type = type
+
+-- Ticks per Second
+local DEFAULT_TPS = 100/1000 -- 100 ms
+
+
+
+--====================================================================--
 --== Main Function
 
 
@@ -56,25 +68,34 @@ local VERSION = "0.1.0"
 --
 local function eventLoopGenerator( params )
 	-- print( "eventLoopGenerator", params.cmd_module )
-	assert( type(params.cmd_module)=='string', 'expected module name for Corovel' )
+	assert( type(params.cmd_module)=='string', 'Corovel missing string module name' )
 	--==--
 
 	--== Imports
 
-	-- Globals, these are set in environment
-	_G.Runtime = require 'corona.runtime'
-	_G.timer = require 'corona.timer'
-	_G.system = require 'corona.system'
-	_G.network = require 'corona.network'
+	-- process Corovel config before other System items are imported
+	local OK, CorovelCfg = pcall( function() return require( 'corovel_cfg' ) end )
+	if not OK then
+		CorovelCfg = {}
+	end
+	if not CorovelCfg.corovel then CorovelCfg.corovel={} end
+	if not CorovelCfg.system then CorovelCfg.system={} end
+
+	-- Globals, these are set in Lua environment
+	_G.__corovel = CorovelCfg
 	_G.crypto = require 'luacrypto'
+	_G.network = require 'corona.network'
+	_G.Runtime = require 'corona.runtime'
+	_G.system = require 'corona.system'
+	_G.timer = require 'corona.timer'
 
 	-- Local scope
-	local socket = require 'socket'
 	local Command = require( params.cmd_module )
+	local socket = require 'socket'
 
 	--== Setup, Constants
 
-	local tps = params.tps or 100/1000 -- 100 ms
+	local tps = CorovelCfg.corovel.tps or DEFAULT_TPS
 	local cmd
 
 	-- use timer to perform Runtime actions
@@ -82,8 +103,8 @@ local function eventLoopGenerator( params )
 
 	--== Processing
 
-	if type( Command ) == 'boolean' then
-		-- no return value from Lua file
+	if type(Command)=='boolean' then
+		-- no returned object from Lua file
 		cmd = Command
 
 	else
@@ -97,13 +118,18 @@ local function eventLoopGenerator( params )
 
 	--== Loop until done
 
-	while cmd == true or cmd.is_working do
-		-- print("Checking Command Event Runtime")
-		timer:_checkEventSchedule()
-		socket.sleep( tps )
+	local checkEventSchedule = timer._checkEventSchedule
+	local ssleep = socket.sleep
+	local timer = _G.timer
+	while cmd==true or cmd.is_working do
+		-- print( "Checking Command Event Runtime" )
+		checkEventSchedule( timer )
+		ssleep( tps )
 	end
 
 end
+
+
 
 return {
 	createEventLoop=eventLoopGenerator
