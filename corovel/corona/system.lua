@@ -48,6 +48,7 @@ local VERSION = "0.1.0"
 
 
 local socket = require 'socket'
+local lfs = require 'lfs'
 
 
 
@@ -55,7 +56,14 @@ local socket = require 'socket'
 --== Setup, Constants
 
 
+local Config = _G.__corovel
+local CWD = lfs.currentdir()
 local start_time = socket.gettime()
+
+local CACHES_DIR = Config.system.cachesDir or CWD
+local DOCUMENTS_DIR = Config.system.documentsDir or CWD
+local RESOURCE_DIR = Config.system.resourceDir or CWD
+local TEMPORARY_DIR = Config.system.temporaryDir or CWD
 
 
 
@@ -68,6 +76,13 @@ local function millisecondsSinceStart()
 end
 
 
+-- @TODO: get system separator
+local function systemPathForFilename( file, baseDir )
+	if baseDir==nil then baseDir=RESOURCE_DIR end
+	return baseDir .. '/' .. file
+end
+
+
 
 --====================================================================--
 --== System Facade
@@ -75,5 +90,11 @@ end
 
 
 return {
-	getTimer=millisecondsSinceStart
+	getTimer=millisecondsSinceStart,
+	pathForFile=systemPathForFilename,
+
+	CachesDirectory=CACHES_DIR,
+	DocumentsDirectory=DOCUMENTS_DIR,
+	ResourceDirectory=RESOURCE_DIR,
+	TemporaryDirectory=TEMPORARY_DIR,
 }
