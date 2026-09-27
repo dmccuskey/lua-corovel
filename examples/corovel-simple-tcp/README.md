@@ -1,7 +1,11 @@
 ## Basic TCP ##
 
-This is an unmodified example from DMC Corona Library.
+A 2015 example from DMC Corona Library, run unmodified under Corovel.
 
-## Run ##
 
-`lua corovel.lua main`
+## Status ##
+
+It doesn't run as is: it requires `lua_sockets`, an old module name that is in no current repository (the
+sockets library is now [dmc-sockets](https://github.com/dmccuskey/dmc-sockets)),
+and it connects to `docs.davidmccuskey.com`, which is gone. Kept for
+reference; see Known Issues in the main README.

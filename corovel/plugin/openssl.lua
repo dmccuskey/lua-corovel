@@ -1,7 +1,7 @@
 --====================================================================--
 -- corovel/plugin/openssl.lua
 --
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel.lua
+-- Documentation: https://github.com/dmccuskey/lua-corovel
 --====================================================================--
 
 --[[
