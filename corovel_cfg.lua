@@ -32,7 +32,7 @@ local Config = {}
 --== Corovel
 
 Config.corovel = {
-	tps=100/1000 -- 100ms
+	tps=100/1000 -- loop sleep, seconds (0.1 = 100 ms); see README, Configuration
 }
 
 
@@ -43,15 +43,6 @@ Config.system = {
 	documentsDir=SystemDocumentsDir,
 	resourceDir=SystemResourceDir,
 	temporaryDir=SystemTemporaryDir,
-}
-
-
---== WAMP
-
-Config.wamp = {
-	host='ws://192.168.3.84',
-	port=8080,
-	realm='realm1'
 }
 
 

@@ -11,8 +11,11 @@
 # eg project_libs="./libs/?.lua;./libs/dmc_corona/?.lua;./data_services/?.lua;"
 project_libs="./corovel/?.lua;"
 
+# Lua 5.1 interpreter; override with LUA=/path/to/lua ./run.sh
+LUA=${LUA:-lua5.1}
+
 # get default LUA_PATH
-lua_path=$(lua5.1 -e "print(package.path)")
+lua_path=$($LUA -e "print(package.path)")
 
 # add project dirs to LUA_PATH
 LUA_PATH=$project_libs$lua_path
@@ -20,4 +23,4 @@ LUA_PATH=$project_libs$lua_path
 corovel_command='main'
 
 # run lua
-export LUA_PATH ; lua5.1 corovel.lua $corovel_command
+export LUA_PATH ; $LUA corovel.lua $corovel_command

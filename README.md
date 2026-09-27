@@ -1,111 +1,76 @@
+# Lua Corovel
 
-## Lua Corovel ##
+Runs non-visual Solar2D (Corona SDK) code in plain Lua 5.1, outside the Simulator.
 
-An event-loop programming environment for Lua that mimics the one in Corona SDK.
+Corovel provides a small copy of Solar2D's runtime: an event loop that sends `enterFrame` events, plus `Runtime`, `timer`, `system` and `network`. Code written for Solar2D that only uses those, such as [dmc-sockets](https://github.com/dmccuskey/dmc-sockets), [dmc-websockets](https://github.com/dmccuskey/dmc-websockets) and [dmc-wamp](https://github.com/dmccuskey/dmc-wamp), runs unmodified from a terminal: in tests, in CI, or on a server. Corovel has no `display`, graphics or physics.
 
+![Solar2D code without display.* runs in Corovel](assets/corovel-main.png)
 
+```sh
+lua5.1 corovel.lua main      # loads ./main.lua and runs the event loop
+```
 
-### Features ###
+## Features
 
-Though it's in its infancy, Corovel is pretty cool. It will allow you to:
+- An event loop with `enterFrame` events (10 per second by default, configurable).
+- `timer.performWithDelay()` and `timer.cancel()`, with repeat counts.
+- `Runtime:addEventListener()`, `removeEventListener()`, `dispatchEvent()`, with function or table listeners.
+- `system.getTimer()`, `system.pathForFile()` and the directory constants.
+- `network.request()` over HTTP and HTTPS (blocking; see [Reference](docs/reference.md#network)).
+- A `plugin.openssl` stand-in, so libraries that use Solar2D's OpenSSL plugin get LuaSec instead.
+- A `json` module that wraps whichever JSON library is installed (`dkjson` or `cjson`).
+- Runs until the loaded module says it's done, or forever for a server.
 
-* Run unmodified, *non-visual* code from Corona SDK on a server
+## Quick Start
 
-* create and run other Corvel environments in separate threads
+This runs a small Solar2D-style program with timers and `enterFrame` events in about 5 minutes, in a terminal on macOS or Linux. You need Lua 5.1 with LuaSocket, LuaFileSystem and LuaSec (check: `lua5.1 -e "require 'socket'; require 'lfs'; require 'ssl'"` prints nothing), and a JSON library, `dkjson` or `cjson`, for the tests. With LuaRocks: `luarocks install luasocket luafilesystem luasec dkjson`.
 
-  Combined with [Lua Lanes](https://github.com/LuaLanes/lanes), each environment can run in its own OS thread ! sweet
+### 1. Get the code
 
+```sh
+git clone https://github.com/dmccuskey/lua-corovel.git
+cd lua-corovel
+```
 
+### 2. Run the example
 
-### Overview ###
+Corovel's own modules are in `corovel/`, so it goes on `LUA_PATH` (the trailing `;;` keeps the default path):
 
+```sh
+cd examples/corovel-timers
+LUA_PATH="./?.lua;../../?.lua;../../corovel/?.lua;;" lua5.1 ../../corovel.lua main
+```
 
+It prints three ticks and the number of `enterFrame` events it saw, then exits after two seconds:
 
-**Corovel Environment**
+```text
+started at	0.35
+tick	624
+tick	1252
+tick	1876
+frames seen:	18
+```
 
+`module 'event_loop' not found` means `corovel/` isn't on `LUA_PATH`.
 
-![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-main.png "Corovel Overview")
+### 3. Write your own
 
-Corovel provides some core environment objects from the Corona SDK so that *non-visual* code will run unmodified.
+`main.lua` in the example is an ordinary Solar2D-style module: it uses the globals `Runtime`, `timer` and `system`. It returns a table with an `execute()` method, which Corovel calls once, and an `is_working` flag; Corovel runs until the flag is `false`. A module that returns nothing runs forever, like a server.
 
+**Going further:** how Corovel loads a module, the settings in `corovel_cfg.lua`, and what each Solar2D API supports: [Reference](docs/reference.md).
 
-**Threaded Corovels**
+## Documentation
 
+- [Reference](docs/reference.md): running a module, configuration, the Solar2D APIs provided, Known Issues.
+- [Development](docs/development.md): the tests.
+- [Examples](examples/): `corovel-timers` runs; the two TCP examples are from 2015 and don't.
 
-![Corovel Cool](https://raw.githubusercontent.com/dmccuskey/lua-corovel/master/assets/corovel-sub.png "Corovel Threads")
+## Why Corovel?
 
-Here the Main Corovel launches and controls multiple Corovel instances, each running in separate threads via LuaLanes. Depending on needs, each process can be short-lived (eg, Web Worker) or loop forever (eg, server process).
+The name comes from *Corona Event Loop*. It was written in 2014 so the DMC networking libraries (sockets, WebSockets, WAMP) could run on a server without rewriting them: Solar2D's async code is built on two things, `Runtime`, which sends an event every frame, and `timer`, and both need only an event loop. dmc-websockets' [Autobahn test harness](https://github.com/dmccuskey/dmc-websockets/tree/master/tests/autobahn) runs the library under Corovel today.
 
-Each sub-Corovel can launch its own threaded Corovels, too !
+An earlier version of this README described running Corovels in separate OS threads with [Lua Lanes](https://github.com/LuaLanes/lanes). That was never implemented.
 
+## License
 
-
-### Dependencies ###
-
-Corovel is a library written in pure Lua. It requires the following Lua modules:
-
-* Lua 5.1 (5.2 should work too, though not tested)
-* LuaSocket
-
-Optional installs:
-* Lua Lanes
-
-
-
-### How to Use Corovel ###
-
-Launch your Lua file with Corovel like so:
-
-* `lua corovel.lua main`
-  This launches `./main.lua` inside of the main Corovel
-
-* `lua corovel.lua commands.master`
-  This launches the file `./commands/master.lua` inside of the main Corovel
-
-
-
-### Why Corovel ? ###
-
-
-The name Corovel comes from the phrase *Corona Event Loop*. I created it so that I could run certain modules from my DMC Corona Library in a server environment (eg, async TCP Sockets, WebSockets, and WAMP). I figured if I could create an enviroment similar to the Corona SDK, then I wouldn't have to re-write any of the libraries and could continue to code in my "normal" Corona-esque manner. =)
-
-Async programming is easy if you have the right building blocks for async code. The Corona SDK environment provides two core objects: the Corona Runtime and Corona Timer. The event loop powers both the *Runtime* which sends out events every "frame" and the *Timer* which will call a handler after a certain time has passed.
-
-
-Note that *Corovel is NOT the Corona SDK !* Corovel *does not* provide any visual services to code – eg, sprites, game-engine, etc.
-
-
-
-### Corona Modules ###
-
-These objects from the Corona world are available, but might not be complete:
-* Runtime
-* timer
-* system
-* network
-
-These shims are available for Lua modules:
-* json
-
-
-
-### Tests ###
-
-There are two types of test frameworks used – Busted and Lunatest.
-
-Lunatest tests run inside of a running Corovel. The script `run.sh` is setup for those. Type the following to run:
-
-`> ./run.sh`
-
-Bested tests run outside of Corovel and test basic units. Type the following to run:
-
-`> busted`
-
-
-
-### Documentation & Examples ###
-
-
-More docs coming soon. http://docs.davidmccuskey.com/display/docs/Lua+Corovel
-
-Examples are in the `examples` folder.
+MIT; see [LICENSE](LICENSE).

@@ -3,7 +3,7 @@
 --
 -- starts main Corovel event-loop
 --
--- Documentation: http://docs.davidmccuskey.com/display/docs/Lua+Corovel
+-- Documentation: https://github.com/dmccuskey/lua-corovel
 --====================================================================--
 
 --[[
